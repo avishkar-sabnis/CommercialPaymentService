@@ -1,6 +1,7 @@
+
 package com.commercialcards.organization_service.OSEntity;
 
-import com.commercialcards.organization_service.OSDto.CompanyStatus;
+import com.commercialcards.organization_service.OSEnum.CompanyStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,7 +9,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.time.Instant;
-import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -22,38 +22,61 @@ import java.util.UUID;
 )
 public class Company {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "companyId", nullable = false)
     private UUID companyId;
 
-    @Size(max = 100,message = "Official display name")
-    @NotBlank(message = "Company Name cannot be blank")
-    @Column(name = "companyName", nullable = false)
+    @NotBlank(message = "Company name cannot be blank")
+    @Size(max = 100, message = "Company name cannot exceed 100 characters")
+    @Column(name = "companyName", nullable = false, length = 100)
     private String companyName;
 
-
-    @Column(name = "companyRegistrationNumber", nullable = false)
     @NotBlank(message = "Registration number cannot be blank")
+    @Size(max = 50, message = "Registration number cannot exceed 50 characters")
+    @Column(name = "companyRegistrationNumber", nullable = false, length = 50)
     private String companyRegistrationNumber;
 
     @NotBlank(message = "Country code is required")
     @Size(min = 2, max = 2, message = "Country code must be 2 characters")
-    @Pattern(regexp = "^[A-Z]{2}$", message = "Country code must be a valid ISO 3166-1 alpha-2 code (e.g., IN, US)")
+    @Pattern(
+            regexp = "^[A-Z]{2}$",
+            message = "Country code must contain two uppercase letters"
+    )
     @Column(name = "companyCountry", nullable = false, length = 2, columnDefinition = "CHAR(2)")
     private String companyCountry;
 
+    @NotNull(message = "Company status is required")
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Company Status  is required")
-    @Column(name = "companyStatus", nullable = false)
-    private CompanyStatus companyStatus ;
+    @Column(name = "companyStatus", nullable = false, length = 20)
+    private CompanyStatus companyStatus;
+
+    @Column(name = "companyCreatedDate", nullable = false, updatable = false)
+    private Instant companyCreatedDate;
 
     @Column(name = "companyUpdatedDate", nullable = false)
     private Instant companyUpdatedDate;
 
+    protected Company() {
+        // Required by JPA
+    }
+
+    public Company(
+            String companyName,
+            String companyRegistrationNumber,
+            String companyCountry
+    ) {
+        this.companyName = companyName;
+        this.companyRegistrationNumber = companyRegistrationNumber;
+        this.companyCountry = companyCountry;
+        this.companyStatus = CompanyStatus.PENDING;
+    }
+
     @PrePersist
     protected void onCreate() {
-        this.companyUpdatedDate = Instant.now();
+        Instant now = Instant.now();
+        this.companyCreatedDate = now;
+        this.companyUpdatedDate = now;
     }
 
     @PreUpdate
@@ -61,15 +84,8 @@ public class Company {
         this.companyUpdatedDate = Instant.now();
     }
 
-    public Company() {
-    }
-
     public UUID getCompanyId() {
         return companyId;
-    }
-
-    public void setCompanyId(UUID companyId) {
-        this.companyId = companyId;
     }
 
     public String getCompanyName() {
@@ -100,24 +116,39 @@ public class Company {
         return companyStatus;
     }
 
-    public void setCompanyStatus(CompanyStatus companyStatus) {
-        this.companyStatus = companyStatus;
+    public Instant getCompanyCreatedDate() {
+        return companyCreatedDate;
     }
 
     public Instant getCompanyUpdatedDate() {
         return companyUpdatedDate;
     }
 
-    public void setCompanyUpdatedDate(Instant companyUpdatedDate) {
-        this.companyUpdatedDate = companyUpdatedDate;
+    // Controlled business operation for status changes
+    public void activate() {
+        if (this.companyStatus != CompanyStatus.PENDING) {
+            throw new IllegalStateException(
+                    "Only pending companies can be activated"
+            );
+        }
+        this.companyStatus = CompanyStatus.ACTIVE;
     }
 
-    public Company(UUID companyId, String companyName, String companyRegistrationNumber, String companyCountry, CompanyStatus companyStatus, Instant companyUpdatedDate) {
-        this.companyId = companyId;
-        this.companyName = companyName;
-        this.companyRegistrationNumber = companyRegistrationNumber;
-        this.companyCountry = companyCountry;
-        this.companyStatus = companyStatus;
-        this.companyUpdatedDate = companyUpdatedDate;
+    public void suspend() {
+        if (this.companyStatus != CompanyStatus.ACTIVE) {
+            throw new IllegalStateException(
+                    "Only active companies can be suspended"
+            );
+        }
+        this.companyStatus = CompanyStatus.SUSPENDED;
+    }
+
+    public void close() {
+        if (this.companyStatus == CompanyStatus.CLOSED) {
+            throw new IllegalStateException(
+                    "Company is already closed"
+            );
+        }
+        this.companyStatus = CompanyStatus.CLOSED;
     }
 }
