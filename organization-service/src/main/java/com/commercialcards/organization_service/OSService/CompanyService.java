@@ -5,8 +5,12 @@ import com.commercialcards.organization_service.OSDto.CompanyResponse;
 import com.commercialcards.organization_service.OSEntity.Company;
 import com.commercialcards.organization_service.OSRepository.CompanyRepo;
 import com.commercialcards.organization_service.OsException.CompanyExistsException;
+import com.commercialcards.organization_service.OsException.CompanyNotFoundException;
 import com.commercialcards.organization_service.mapper.CompanyReqToCompanyMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -28,10 +32,9 @@ public class CompanyService {
         if(b){
             throw new CompanyExistsException("Company Already Exists");
         }
-
         Company company = companyReqToCompanyMapper.mapCompanyRequestToCompany(companyRequest);
         Company companyResponse = companyRepo.save(company);
-        return getCompanyResponse(companyResponse);
+        return getCompanyResponse(companyResponse);     //get company response in required format
 
     }
 
@@ -47,4 +50,13 @@ public class CompanyService {
         return companyResponse;
     }
 
+    public CompanyResponse findCompanyByUuid(UUID companyId) {
+
+        Optional<Company> company = companyRepo.findById(companyId);
+        if(company.isPresent())
+            return getCompanyResponse(company.get());
+        else
+            throw new CompanyNotFoundException("Company Does Not Exists");
+
+    }
 }

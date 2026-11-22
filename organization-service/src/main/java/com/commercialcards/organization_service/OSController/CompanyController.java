@@ -2,14 +2,15 @@ package com.commercialcards.organization_service.OSController;
 
 import com.commercialcards.organization_service.OSDto.CompanyRequest;
 import com.commercialcards.organization_service.OSDto.CompanyResponse;
+import com.commercialcards.organization_service.OSEntity.Company;
 import com.commercialcards.organization_service.OSService.CompanyService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.Blob;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -24,10 +25,15 @@ public class CompanyController {
 
     @PostMapping("/registerCompany")
     public ResponseEntity<CompanyResponse> registerCompany(@Valid @RequestBody CompanyRequest companyRequest){
-
         CompanyResponse companyResponse = companyService.companyRegistration(companyRequest);
-
         return new ResponseEntity<>(companyResponse, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/companies/{companyId}")
+    public ResponseEntity<CompanyResponse> findCompanyByUUID(@PathVariable UUID companyId){
+        CompanyResponse companyByUuid = companyService.findCompanyByUuid(companyId);
+        return new ResponseEntity<>(companyByUuid,HttpStatus.OK);
+
     }
 
 }

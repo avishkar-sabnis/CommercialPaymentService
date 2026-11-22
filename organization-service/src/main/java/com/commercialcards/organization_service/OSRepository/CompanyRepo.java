@@ -9,6 +9,7 @@ import java.util.UUID;
 @Repository
 public interface CompanyRepo extends JpaRepository<Company, UUID> {
 
+    //derived JPA Method
     public boolean existsByCompanyCountryAndCompanyRegistrationNumber(String companyCountry,String companyRegistrationNumber);
 
 }
