@@ -57,7 +57,7 @@ public class Company {
     @Column(name = "companyUpdatedDate", nullable = false)
     private Instant companyUpdatedDate;
 
-    protected Company() {
+    public Company() {
         // Required by JPA
     }
 
