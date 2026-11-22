@@ -24,6 +24,7 @@ public class CompanyController {
 
     @PostMapping("/registerCompany")
     public ResponseEntity<CompanyResponse> registerCompany(@Valid @RequestBody CompanyRequest companyRequest){
+
         CompanyResponse companyResponse = companyService.companyRegistration(companyRequest);
 
         return new ResponseEntity<>(companyResponse, HttpStatus.CREATED);

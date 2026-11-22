@@ -72,6 +72,13 @@ public class Company {
         this.companyStatus = CompanyStatus.PENDING;
     }
 
+    public Company(String companyName, String companyRegistrationNumber, String companyCountry, CompanyStatus companyStatus) {
+        this.companyName = companyName;
+        this.companyRegistrationNumber = companyRegistrationNumber;
+        this.companyCountry = companyCountry;
+        this.companyStatus = CompanyStatus.PENDING;
+    }
+
     @PrePersist
     protected void onCreate() {
         Instant now = Instant.now();
