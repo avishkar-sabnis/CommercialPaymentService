@@ -91,14 +91,9 @@ public class CompanyService {
     public CompanyResponse closeCompany(UUID companyId){
 
         Optional<Company> company = companyRepo.findById(companyId);
-        if(company.isPresent() && company.get().getCompanyStatus()== CompanyStatus.PENDING
-            || company.isPresent() && company.get().getCompanyStatus()== CompanyStatus.ACTIVE
-            || company.isPresent() && company.get().getCompanyStatus()== CompanyStatus.SUSPENDED
-            || company.isPresent() && company.get().getCompanyStatus()== CompanyStatus.INACTIVE){
+        if(company.isPresent()){
             company.get().close();
         }
-        else
-            throw new CompanyNotFoundException("Company Does Not Exists");
 
         return getCompanyResponse(company.get());
 
@@ -108,11 +103,9 @@ public class CompanyService {
     public CompanyResponse suspendCompany(UUID companyId){
 
         Optional<Company> company = companyRepo.findById(companyId);
-        if(company.isPresent() && company.get().getCompanyStatus()== CompanyStatus.ACTIVE){
+        if(company.isPresent()){
             company.get().suspend();
         }
-        else
-            throw new CompanyNotFoundException("Company Does Not Exists");
 
         return getCompanyResponse(company.get());
 
@@ -122,11 +115,9 @@ public class CompanyService {
     public CompanyResponse deactivateCompany(UUID companyId){
 
         Optional<Company> company = companyRepo.findById(companyId);
-        if(company.isPresent() && company.get().getCompanyStatus()== CompanyStatus.ACTIVE){
+        if(company.isPresent()){
             company.get().deactivate();
         }
-        else
-            throw new CompanyNotFoundException("Company Does Not Exists");
 
         return getCompanyResponse(company.get());
 
@@ -135,7 +126,7 @@ public class CompanyService {
     public CompanyResponse reactivateCompany(UUID companyId){
 
         Optional<Company> company = companyRepo.findById(companyId);
-        if(company.isPresent() && company.get().getCompanyStatus()== CompanyStatus.SUSPENDED){
+        if(company.isPresent()){
             company.get().reactivate();
         }
         else

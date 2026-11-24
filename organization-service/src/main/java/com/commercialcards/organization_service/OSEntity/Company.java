@@ -153,9 +153,9 @@ public class Company {
     }
 
     public void deactivate() {
-        if (this.companyStatus == CompanyStatus.CLOSED) {
+        if (this.companyStatus == CompanyStatus.INACTIVE) {
             throw new IllegalStateException(
-                    "Company is already closed"
+                    "Company is already deactivated"
             );
         }
         this.companyStatus = CompanyStatus.INACTIVE;
