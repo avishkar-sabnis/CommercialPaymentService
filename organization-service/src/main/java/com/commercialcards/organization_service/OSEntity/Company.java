@@ -49,7 +49,7 @@ public class Company {
     @NotNull(message = "Company status is required")
     @Enumerated(EnumType.STRING)
     @Column(name = "companyStatus", nullable = false, length = 20)
-    private CompanyStatus companyStatus;
+    private CompanyStatus companyStatus= CompanyStatus.PENDING;
 
     @Column(name = "companyCreatedDate", nullable = false, updatable = false)
     private Instant companyCreatedDate;
@@ -69,15 +69,8 @@ public class Company {
         this.companyName = companyName;
         this.companyRegistrationNumber = companyRegistrationNumber;
         this.companyCountry = companyCountry;
-        this.companyStatus = CompanyStatus.PENDING;
     }
 
-    public Company(String companyName, String companyRegistrationNumber, String companyCountry, CompanyStatus companyStatus) {
-        this.companyName = companyName;
-        this.companyRegistrationNumber = companyRegistrationNumber;
-        this.companyCountry = companyCountry;
-        this.companyStatus = CompanyStatus.PENDING;
-    }
 
     @PrePersist
     protected void onCreate() {
@@ -157,5 +150,16 @@ public class Company {
             );
         }
         this.companyStatus = CompanyStatus.CLOSED;
+    }
+    public void reactivate() {
+        if (this.companyStatus != CompanyStatus.SUSPENDED
+                && this.companyStatus != CompanyStatus.INACTIVE) {
+
+            throw new IllegalStateException(
+                    "Only suspended or inactive companies can be reactivated"
+            );
+        }
+
+        this.companyStatus = CompanyStatus.ACTIVE;
     }
 }

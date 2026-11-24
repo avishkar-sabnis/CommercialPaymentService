@@ -2,11 +2,13 @@ package com.commercialcards.organization_service.OSService;
 
 import com.commercialcards.organization_service.OSDto.CompanyRequest;
 import com.commercialcards.organization_service.OSDto.CompanyResponse;
+import com.commercialcards.organization_service.OSDto.CompanyUpdateRequest;
 import com.commercialcards.organization_service.OSEntity.Company;
 import com.commercialcards.organization_service.OSRepository.CompanyRepo;
 import com.commercialcards.organization_service.OsException.CompanyExistsException;
 import com.commercialcards.organization_service.OsException.CompanyNotFoundException;
 import com.commercialcards.organization_service.mapper.CompanyReqToCompanyMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -57,6 +59,20 @@ public class CompanyService {
             return getCompanyResponse(company.get());
         else
             throw new CompanyNotFoundException("Company Does Not Exists");
+
+    }
+
+    @Transactional
+    public CompanyResponse updateCompanyName(UUID companyId, CompanyUpdateRequest companyUpdateRequest) {
+
+        Optional<Company> company = companyRepo.findById(companyId);
+        if(company.isPresent()){
+            company.get().setCompanyName(companyUpdateRequest.getCompanyName());
+            Company savedCompany = companyRepo.save(company.get());
+            return getCompanyResponse(savedCompany);
+        }else
+            throw new CompanyNotFoundException("Company Does Not Exists");
+
 
     }
 }
