@@ -72,7 +72,17 @@ public class CompanyService {
             return getCompanyResponse(savedCompany);
         }else
             throw new CompanyNotFoundException("Company Does Not Exists");
+    }
 
+    @Transactional
+    public CompanyResponse activateCompany(UUID companyId){
+        Optional<Company> company = companyRepo.findById(companyId);
+        if(company.isPresent()){
+            company.get().activate();
+        }
+        else
+            throw new CompanyNotFoundException("Company Does Not Exists");
 
+        return getCompanyResponse(company.get());
     }
 }
