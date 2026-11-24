@@ -135,7 +135,7 @@ public class Company {
     }
 
     public void suspend() {
-        if (this.companyStatus != CompanyStatus.ACTIVE) {
+        if (this.companyStatus != CompanyStatus.ACTIVE && this.companyStatus == CompanyStatus.PENDING) {
             throw new IllegalStateException(
                     "Only active companies can be suspended"
             );
@@ -153,7 +153,8 @@ public class Company {
     }
 
     public void deactivate() {
-        if (this.companyStatus == CompanyStatus.INACTIVE) {
+        if (this.companyStatus == CompanyStatus.INACTIVE ||
+                this.companyStatus == CompanyStatus.PENDING) {
             throw new IllegalStateException(
                     "Company is already deactivated"
             );

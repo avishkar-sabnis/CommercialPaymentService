@@ -69,5 +69,11 @@ public class CompanyController {
         return new ResponseEntity<>(companyResponse,HttpStatus.OK);
 
     }
+    @PatchMapping("/companies/{companyId}/close") //patch mapping because we only modify company status  and not other fields from pending to activate
+    public ResponseEntity<CompanyResponse> closeCompany(@PathVariable UUID companyId){
+        CompanyResponse companyResponse = companyService.closeCompany(companyId);
+        return new ResponseEntity<>(companyResponse,HttpStatus.OK);
+
+    }
 
 }
