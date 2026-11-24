@@ -45,4 +45,11 @@ public class CompanyController {
 
     }
 
+    @PatchMapping("/companies/{companyId}/activate") //patch mapping because we only modify company status from pending to activate
+    public ResponseEntity<CompanyResponse> activateCompany(@PathVariable UUID companyId){
+        companyService.activateCompany(companyId);
+        return new ResponseEntity<>(HttpStatus.OK);
+        
+    }
+
 }
