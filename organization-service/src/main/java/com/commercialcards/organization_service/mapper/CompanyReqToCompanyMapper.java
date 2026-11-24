@@ -10,6 +10,6 @@ public class CompanyReqToCompanyMapper {
 
     public Company mapCompanyRequestToCompany(CompanyRequest companyRequest){
         return new Company(companyRequest.getCompanyName(), companyRequest.getCompanyRegistrationNumber(),
-                companyRequest.getCompanyCountry(), CompanyStatus.PENDING);
+                companyRequest.getCompanyCountry());
     }
 }

@@ -4,6 +4,7 @@ import com.commercialcards.organization_service.OSDto.CompanyRequest;
 import com.commercialcards.organization_service.OSDto.CompanyResponse;
 import com.commercialcards.organization_service.OSDto.CompanyUpdateRequest;
 import com.commercialcards.organization_service.OSEntity.Company;
+import com.commercialcards.organization_service.OSEnum.CompanyStatus;
 import com.commercialcards.organization_service.OSRepository.CompanyRepo;
 import com.commercialcards.organization_service.OsException.CompanyExistsException;
 import com.commercialcards.organization_service.OsException.CompanyNotFoundException;
@@ -84,5 +85,63 @@ public class CompanyService {
             throw new CompanyNotFoundException("Company Does Not Exists");
 
         return getCompanyResponse(company.get());
+    }
+
+    @Transactional
+    public CompanyResponse closeCompany(UUID companyId){
+
+        Optional<Company> company = companyRepo.findById(companyId);
+        if(company.isPresent() && company.get().getCompanyStatus()== CompanyStatus.PENDING
+            || company.isPresent() && company.get().getCompanyStatus()== CompanyStatus.ACTIVE
+            || company.isPresent() && company.get().getCompanyStatus()== CompanyStatus.SUSPENDED
+            || company.isPresent() && company.get().getCompanyStatus()== CompanyStatus.INACTIVE){
+            company.get().close();
+        }
+        else
+            throw new CompanyNotFoundException("Company Does Not Exists");
+
+        return getCompanyResponse(company.get());
+
+    }
+
+    @Transactional
+    public CompanyResponse suspendCompany(UUID companyId){
+
+        Optional<Company> company = companyRepo.findById(companyId);
+        if(company.isPresent() && company.get().getCompanyStatus()== CompanyStatus.ACTIVE){
+            company.get().suspend();
+        }
+        else
+            throw new CompanyNotFoundException("Company Does Not Exists");
+
+        return getCompanyResponse(company.get());
+
+    }
+
+    @Transactional
+    public CompanyResponse deactivateCompany(UUID companyId){
+
+        Optional<Company> company = companyRepo.findById(companyId);
+        if(company.isPresent() && company.get().getCompanyStatus()== CompanyStatus.ACTIVE){
+            company.get().deactivate();
+        }
+        else
+            throw new CompanyNotFoundException("Company Does Not Exists");
+
+        return getCompanyResponse(company.get());
+
+    }
+    @Transactional
+    public CompanyResponse reactivateCompany(UUID companyId){
+
+        Optional<Company> company = companyRepo.findById(companyId);
+        if(company.isPresent() && company.get().getCompanyStatus()== CompanyStatus.SUSPENDED){
+            company.get().reactivate();
+        }
+        else
+            throw new CompanyNotFoundException("Company Does Not Exists");
+
+        return getCompanyResponse(company.get());
+
     }
 }

@@ -45,11 +45,29 @@ public class CompanyController {
 
     }
 
-    @PatchMapping("/companies/{companyId}/activate") //patch mapping because we only modify company status from pending to activate
+    @PatchMapping("/companies/{companyId}/activate") //patch mapping because we only modify company status  and not other fields from pending to activate
     public ResponseEntity<CompanyResponse> activateCompany(@PathVariable UUID companyId){
-        companyService.activateCompany(companyId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        CompanyResponse companyResponse = companyService.activateCompany(companyId);
+        return new ResponseEntity<>(companyResponse,HttpStatus.OK);
         
+    }
+    @PatchMapping("/companies/{companyId}/suspend") //patch mapping because we only modify company status  and not other fields from pending to activate
+    public ResponseEntity<CompanyResponse> suspendCompany(@PathVariable UUID companyId){
+        CompanyResponse companyResponse = companyService.suspendCompany(companyId);
+        return new ResponseEntity<>(companyResponse,HttpStatus.OK);
+
+    }
+    @PatchMapping("/companies/{companyId}/reactivate") //patch mapping because we only modify company status  and not other fields from pending to activate
+    public ResponseEntity<CompanyResponse> reactivateCompany(@PathVariable UUID companyId){
+        CompanyResponse companyResponse = companyService.reactivateCompany(companyId);
+        return new ResponseEntity<>(companyResponse,HttpStatus.OK);
+
+    }
+    @PatchMapping("/companies/{companyId}/deactivate") //patch mapping because we only modify company status  and not other fields from pending to activate
+    public ResponseEntity<CompanyResponse> deactivateCompany(@PathVariable UUID companyId){
+        CompanyResponse companyResponse = companyService.deactivateCompany(companyId);
+        return new ResponseEntity<>(companyResponse,HttpStatus.OK);
+
     }
 
 }

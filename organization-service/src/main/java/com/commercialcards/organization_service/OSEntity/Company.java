@@ -151,6 +151,16 @@ public class Company {
         }
         this.companyStatus = CompanyStatus.CLOSED;
     }
+
+    public void deactivate() {
+        if (this.companyStatus == CompanyStatus.CLOSED) {
+            throw new IllegalStateException(
+                    "Company is already closed"
+            );
+        }
+        this.companyStatus = CompanyStatus.INACTIVE;
+    }
+
     public void reactivate() {
         if (this.companyStatus != CompanyStatus.SUSPENDED
                 && this.companyStatus != CompanyStatus.INACTIVE) {
