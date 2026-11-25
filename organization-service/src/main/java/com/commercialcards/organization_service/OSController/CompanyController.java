@@ -1,5 +1,6 @@
 package com.commercialcards.organization_service.OSController;
 
+import com.commercialcards.organization_service.OSDto.CompanyPaginatedResponse;
 import com.commercialcards.organization_service.OSDto.CompanyRequest;
 import com.commercialcards.organization_service.OSDto.CompanyResponse;
 import com.commercialcards.organization_service.OSDto.CompanyUpdateRequest;
@@ -78,8 +79,8 @@ public class CompanyController {
     }
 
     @GetMapping("/companies/getAllCompanies")
-    public ResponseEntity<List<CompanyResponse>> getAllCompanies(@RequestParam int pageNumber, @RequestParam int pageSize){
-        List<CompanyResponse> companyResponse = companyService.getAllCompanies(pageNumber,pageSize);
+    public ResponseEntity<CompanyPaginatedResponse> getAllCompanies(@RequestParam int pageNumber, @RequestParam int pageSize){
+        CompanyPaginatedResponse companyResponse = companyService.getAllCompanies(pageNumber,pageSize);
         return new ResponseEntity<>(companyResponse,HttpStatus.OK);
     }
 

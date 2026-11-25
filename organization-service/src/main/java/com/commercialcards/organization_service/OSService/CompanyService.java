@@ -1,5 +1,6 @@
 package com.commercialcards.organization_service.OSService;
 
+import com.commercialcards.organization_service.OSDto.CompanyPaginatedResponse;
 import com.commercialcards.organization_service.OSDto.CompanyRequest;
 import com.commercialcards.organization_service.OSDto.CompanyResponse;
 import com.commercialcards.organization_service.OSDto.CompanyUpdateRequest;
@@ -13,11 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -55,6 +54,25 @@ public class CompanyService {
         companyResponse.setCompanyStatus(company.getCompanyStatus());
         companyResponse.setCompanyUpdatedDate(company.getCompanyUpdatedDate());
         return companyResponse;
+    }
+    private static CompanyPaginatedResponse getPaginatedCompanyResponse(
+            List<CompanyResponse> companies,
+            int totalPages,
+            int pageableNumber,
+            int pageableSize,
+            long pageTotalElements,
+            boolean hasNext,
+            boolean hasPrevious) {
+
+        return new CompanyPaginatedResponse(
+                companies,
+                totalPages,
+                pageableNumber,
+                pageableSize,
+                pageTotalElements,
+                hasNext,
+                hasPrevious
+        );
     }
 
     public CompanyResponse findCompanyByUuid(UUID companyId) {
@@ -146,11 +164,27 @@ public class CompanyService {
 
     }
 
-    public List<CompanyResponse> getAllCompanies(int pageNumber, int pageSize){
+    public CompanyPaginatedResponse getAllCompanies(int pageNumber, int pageSize){
         PageRequest pageable = PageRequest.of(pageNumber,pageSize);
         Page<Company> companyResponsePageable = companyRepo.findAll(pageable);
+
+
+        int totalPages = companyResponsePageable.getTotalPages();
+        int pageableNumber = companyResponsePageable.getNumber();
+        int pageableSize = companyResponsePageable.getSize();
+        long pageTotalElements = companyResponsePageable.getTotalElements();
+        boolean hasNext = companyResponsePageable.hasNext();
+        boolean hasPrevious = companyResponsePageable.hasPrevious();
+
+
         List<Company> allCompanies = companyResponsePageable.getContent();
-        return allCompanies.stream().map(CompanyService::getCompanyResponse).toList();
+
+        CompanyResponse companyResponse = new CompanyResponse();
+        List<CompanyResponse> list = allCompanies.stream().map(CompanyService::getCompanyResponse).toList();
+
+
+        return getPaginatedCompanyResponse(list
+        ,totalPages,pageableNumber,pageableSize,pageTotalElements,hasNext,hasPrevious);
 
     }
 }
