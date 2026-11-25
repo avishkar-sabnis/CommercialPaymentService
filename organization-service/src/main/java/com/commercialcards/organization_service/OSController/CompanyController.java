@@ -78,8 +78,8 @@ public class CompanyController {
     }
 
     @GetMapping("/companies/getAllCompanies")
-    public ResponseEntity<List<CompanyResponse>> getAllCompanies(){
-        List<CompanyResponse> companyResponse = companyService.getAllCompanies();
+    public ResponseEntity<List<CompanyResponse>> getAllCompanies(@RequestParam int pageNumber, @RequestParam int pageSize){
+        List<CompanyResponse> companyResponse = companyService.getAllCompanies(pageNumber,pageSize);
         return new ResponseEntity<>(companyResponse,HttpStatus.OK);
     }
 

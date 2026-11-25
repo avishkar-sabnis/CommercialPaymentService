@@ -4,7 +4,6 @@ import com.commercialcards.organization_service.OSDto.CompanyRequest;
 import com.commercialcards.organization_service.OSDto.CompanyResponse;
 import com.commercialcards.organization_service.OSDto.CompanyUpdateRequest;
 import com.commercialcards.organization_service.OSEntity.Company;
-import com.commercialcards.organization_service.OSEnum.CompanyStatus;
 import com.commercialcards.organization_service.OSRepository.CompanyRepo;
 import com.commercialcards.organization_service.OsException.CompanyExistsException;
 import com.commercialcards.organization_service.OsException.CompanyNotFoundException;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -147,9 +145,7 @@ public class CompanyService {
 
     }
 
-    public List<CompanyResponse> getAllCompanies(){
-        var pageNumber = 5;
-        var pageSize = 2;
+    public List<CompanyResponse> getAllCompanies(int pageNumber, int pageSize){
         List<CompanyResponse> resultList = new ArrayList<>();
         PageRequest pageable = PageRequest.of(pageNumber,pageSize);
         Page<Company> companyResponsePageable = companyRepo.findAll(pageable);
