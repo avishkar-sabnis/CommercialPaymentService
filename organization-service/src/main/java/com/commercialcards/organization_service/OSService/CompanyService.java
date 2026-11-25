@@ -94,6 +94,8 @@ public class CompanyService {
         if(company.isPresent()){
             company.get().close();
         }
+        else
+            throw new CompanyNotFoundException("Company Does Not Exists");
 
         return getCompanyResponse(company.get());
 
@@ -106,6 +108,8 @@ public class CompanyService {
         if(company.isPresent()){
             company.get().suspend();
         }
+        else
+            throw new CompanyNotFoundException("Company Does Not Exists");
 
         return getCompanyResponse(company.get());
 
@@ -118,6 +122,8 @@ public class CompanyService {
         if(company.isPresent()){
             company.get().deactivate();
         }
+        else
+            throw new CompanyNotFoundException("Company Does Not Exists");
 
         return getCompanyResponse(company.get());
 

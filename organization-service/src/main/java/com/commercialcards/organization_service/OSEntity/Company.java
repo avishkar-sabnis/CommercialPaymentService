@@ -128,36 +128,52 @@ public class Company {
     // Controlled business operation for status changes
     public void activate() {
         if (this.companyStatus != CompanyStatus.PENDING) {
-            throw new InvalidCompanyStateException(
-                    "Only pending companies can be activated"
-            );
+            try {
+                throw new InvalidCompanyStateException(
+                        "Only pending companies can be activated"
+                );
+            } catch (InvalidCompanyStateException e) {
+                throw new RuntimeException(e);
+            }
         }
         this.companyStatus = CompanyStatus.ACTIVE;
     }
 
     public void suspend() {
         if (this.companyStatus != CompanyStatus.ACTIVE) {
-            throw new InvalidCompanyStateException(
-                    "Only active companies can be suspended"
-            );
+            try {
+                throw new InvalidCompanyStateException(
+                        "Only active companies can be suspended"
+                );
+            } catch (InvalidCompanyStateException e) {
+                throw new RuntimeException(e);
+            }
         }
         this.companyStatus = CompanyStatus.SUSPENDED;
     }
 
     public void close() {
         if (this.companyStatus == CompanyStatus.CLOSED) {
-            throw new InvalidCompanyStateException(
-                    "Company is already closed"
-            );
+            try {
+                throw new InvalidCompanyStateException(
+                        "Company is already closed"
+                );
+            } catch (InvalidCompanyStateException e) {
+                throw new RuntimeException(e);
+            }
         }
         this.companyStatus = CompanyStatus.CLOSED;
     }
 
     public void deactivate() {
         if (this.companyStatus != CompanyStatus.ACTIVE) {
-            throw new InvalidCompanyStateException(
-                    "Company is already deactivated"
-            );
+            try {
+                throw new InvalidCompanyStateException(
+                        "Company is already deactivated"
+                );
+            } catch (InvalidCompanyStateException e) {
+                throw new RuntimeException(e);
+            }
         }
         this.companyStatus = CompanyStatus.INACTIVE;
     }
@@ -166,9 +182,13 @@ public class Company {
         if (this.companyStatus != CompanyStatus.SUSPENDED
                 && this.companyStatus != CompanyStatus.INACTIVE) {
 
-            throw new InvalidCompanyStateException(
-                    "Only suspended or inactive companies can be reactivated"
-            );
+            try {
+                throw new InvalidCompanyStateException(
+                        "Only suspended or inactive companies can be reactivated"
+                );
+            } catch (InvalidCompanyStateException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         this.companyStatus = CompanyStatus.ACTIVE;

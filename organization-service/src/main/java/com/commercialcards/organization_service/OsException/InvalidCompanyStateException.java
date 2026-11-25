@@ -1,6 +1,6 @@
 package com.commercialcards.organization_service.OsException;
 
-public class InvalidCompanyStateException extends Throwable {
+public class InvalidCompanyStateException extends RuntimeException {
 
 
     public InvalidCompanyStateException() {
