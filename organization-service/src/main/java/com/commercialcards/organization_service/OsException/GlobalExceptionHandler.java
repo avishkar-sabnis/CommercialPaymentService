@@ -20,5 +20,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(companyNotFoundException.getMessage(), HttpStatusCode.valueOf(404));
     }
 
+    @ExceptionHandler(InvalidCompanyStateException.class)
+    public ResponseEntity<String> invalidCompanyState(InvalidCompanyStateException invalidCompanyStateException){
+        return new ResponseEntity<>(invalidCompanyStateException.getMessage(), HttpStatusCode.valueOf(409));
+    }
+
 
 }

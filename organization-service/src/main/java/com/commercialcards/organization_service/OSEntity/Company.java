@@ -2,6 +2,7 @@
 package com.commercialcards.organization_service.OSEntity;
 
 import com.commercialcards.organization_service.OSEnum.CompanyStatus;
+import com.commercialcards.organization_service.OsException.InvalidCompanyStateException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -127,7 +128,7 @@ public class Company {
     // Controlled business operation for status changes
     public void activate() {
         if (this.companyStatus != CompanyStatus.PENDING) {
-            throw new IllegalStateException(
+            throw new InvalidCompanyStateException(
                     "Only pending companies can be activated"
             );
         }
@@ -135,8 +136,8 @@ public class Company {
     }
 
     public void suspend() {
-        if (this.companyStatus != CompanyStatus.ACTIVE && this.companyStatus == CompanyStatus.PENDING) {
-            throw new IllegalStateException(
+        if (this.companyStatus != CompanyStatus.ACTIVE) {
+            throw new InvalidCompanyStateException(
                     "Only active companies can be suspended"
             );
         }
@@ -145,7 +146,7 @@ public class Company {
 
     public void close() {
         if (this.companyStatus == CompanyStatus.CLOSED) {
-            throw new IllegalStateException(
+            throw new InvalidCompanyStateException(
                     "Company is already closed"
             );
         }
@@ -153,9 +154,8 @@ public class Company {
     }
 
     public void deactivate() {
-        if (this.companyStatus == CompanyStatus.INACTIVE ||
-                this.companyStatus == CompanyStatus.PENDING) {
-            throw new IllegalStateException(
+        if (this.companyStatus != CompanyStatus.ACTIVE) {
+            throw new InvalidCompanyStateException(
                     "Company is already deactivated"
             );
         }
@@ -166,7 +166,7 @@ public class Company {
         if (this.companyStatus != CompanyStatus.SUSPENDED
                 && this.companyStatus != CompanyStatus.INACTIVE) {
 
-            throw new IllegalStateException(
+            throw new InvalidCompanyStateException(
                     "Only suspended or inactive companies can be reactivated"
             );
         }
