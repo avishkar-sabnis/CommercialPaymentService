@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Blob;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -74,6 +75,12 @@ public class CompanyController {
         CompanyResponse companyResponse = companyService.closeCompany(companyId);
         return new ResponseEntity<>(companyResponse,HttpStatus.OK);
 
+    }
+
+    @GetMapping("/companies/getAllCompanies")
+    public ResponseEntity<List<CompanyResponse>> getAllCompanies(){
+        List<CompanyResponse> companyResponse = companyService.getAllCompanies();
+        return new ResponseEntity<>(companyResponse,HttpStatus.OK);
     }
 
 }

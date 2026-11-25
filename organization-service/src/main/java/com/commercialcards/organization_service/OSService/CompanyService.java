@@ -10,8 +10,13 @@ import com.commercialcards.organization_service.OsException.CompanyExistsExcepti
 import com.commercialcards.organization_service.OsException.CompanyNotFoundException;
 import com.commercialcards.organization_service.mapper.CompanyReqToCompanyMapper;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -139,6 +144,21 @@ public class CompanyService {
             throw new CompanyNotFoundException("Company Does Not Exists");
 
         return getCompanyResponse(company.get());
+
+    }
+
+    public List<CompanyResponse> getAllCompanies(){
+        var pageNumber = 5;
+        var pageSize = 2;
+        List<CompanyResponse> resultList = new ArrayList<>();
+        PageRequest pageable = PageRequest.of(pageNumber,pageSize);
+        Page<Company> companyResponsePageable = companyRepo.findAll(pageable);
+        List<Company> allCompanies = companyResponsePageable.getContent();
+        for (Company allCompany : allCompanies) {
+            CompanyResponse companyResponse = getCompanyResponse(allCompany);
+            resultList.add(companyResponse);
+        }
+        return resultList;
 
     }
 }
