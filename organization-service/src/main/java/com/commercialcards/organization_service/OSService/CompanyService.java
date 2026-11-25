@@ -167,22 +167,15 @@ public class CompanyService {
     public CompanyPaginatedResponse getAllCompanies(int pageNumber, int pageSize){
         PageRequest pageable = PageRequest.of(pageNumber,pageSize);
         Page<Company> companyResponsePageable = companyRepo.findAll(pageable);
-
-
         int totalPages = companyResponsePageable.getTotalPages();
         int pageableNumber = companyResponsePageable.getNumber();
         int pageableSize = companyResponsePageable.getSize();
         long pageTotalElements = companyResponsePageable.getTotalElements();
         boolean hasNext = companyResponsePageable.hasNext();
         boolean hasPrevious = companyResponsePageable.hasPrevious();
-
-
         List<Company> allCompanies = companyResponsePageable.getContent();
 
-        CompanyResponse companyResponse = new CompanyResponse();
         List<CompanyResponse> list = allCompanies.stream().map(CompanyService::getCompanyResponse).toList();
-
-
         return getPaginatedCompanyResponse(list
         ,totalPages,pageableNumber,pageableSize,pageTotalElements,hasNext,hasPrevious);
 
