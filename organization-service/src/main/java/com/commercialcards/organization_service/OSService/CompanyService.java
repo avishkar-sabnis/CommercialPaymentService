@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -146,15 +147,10 @@ public class CompanyService {
     }
 
     public List<CompanyResponse> getAllCompanies(int pageNumber, int pageSize){
-        List<CompanyResponse> resultList = new ArrayList<>();
         PageRequest pageable = PageRequest.of(pageNumber,pageSize);
         Page<Company> companyResponsePageable = companyRepo.findAll(pageable);
         List<Company> allCompanies = companyResponsePageable.getContent();
-        for (Company allCompany : allCompanies) {
-            CompanyResponse companyResponse = getCompanyResponse(allCompany);
-            resultList.add(companyResponse);
-        }
-        return resultList;
+        return allCompanies.stream().map(CompanyService::getCompanyResponse).toList();
 
     }
 }
