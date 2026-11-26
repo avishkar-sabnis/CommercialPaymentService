@@ -81,15 +81,8 @@ public class OnboardingWorkflow {
 
     public void transitionTo(OnboardingStatus onboardingStatus){
 
-        if(onboardingStatus == OnboardingStatus.RECEIVED){
+        if(this.onboardingStatus == OnboardingStatus.RECEIVED) {
             onboardingStatus = OnboardingStatus.VALIDATING_COMPANY;
-        }else if(onboardingStatus == OnboardingStatus.VALIDATING_COMPANY)
-            onboardingStatus = OnboardingStatus.PROCESSING;
-        else if (onboardingStatus == OnboardingStatus.PROCESSING)
-            onboardingStatus = OnboardingStatus.REGISTRATION_COMPLETED;
-        else if (onboardingStatus == OnboardingStatus.REGISTRATION_COMPLETED)
-            onboardingStatus = OnboardingStatus.ONBOARDED;
-
-
+        }
     }
 }
