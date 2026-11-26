@@ -11,6 +11,7 @@
       <list>
         <option value="$PROJECT_DIR$/../organization-service/pom.xml" />
         <option value="$PROJECT_DIR$/organization-service/pom.xml" />
+        <option value="$PROJECT_DIR$/onboarding_orchestrator/pom.xml" />
       </list>
     </option>
   </component>
