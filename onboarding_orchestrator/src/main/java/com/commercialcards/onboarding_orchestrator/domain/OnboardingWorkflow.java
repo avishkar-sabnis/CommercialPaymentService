@@ -1,6 +1,8 @@
 package com.commercialcards.onboarding_orchestrator.domain;
 
 import com.commercialcards.onboarding_orchestrator.enums.OnboardingStatus;
+import com.commercialcards.onboarding_orchestrator.exception.InvalidOnboardingTransitionException;
+
 import java.time.Instant;
 import java.util.UUID;
 
@@ -79,10 +81,15 @@ public class OnboardingWorkflow {
         this.updatedDate = updatedDate;
     }
 
-    public void transitionTo(OnboardingStatus onboardingStatus){
+    public void transitionTo(OnboardingStatus nextStatus) {
 
-        if(this.onboardingStatus == OnboardingStatus.RECEIVED) {
-            onboardingStatus = OnboardingStatus.VALIDATING_COMPANY;
+        if (this.onboardingStatus == OnboardingStatus.RECEIVED
+                && nextStatus == OnboardingStatus.VALIDATING_COMPANY) {
+
+            this.onboardingStatus = OnboardingStatus.VALIDATING_COMPANY;
+
+        } else {
+            throw new InvalidOnboardingTransitionException("Invalid Status Transition");
         }
     }
 }
