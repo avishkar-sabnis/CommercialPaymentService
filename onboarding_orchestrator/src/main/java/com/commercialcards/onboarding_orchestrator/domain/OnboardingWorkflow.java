@@ -1,8 +1,6 @@
-package com.commercialcards.onboarding_orchestrator.dto;
+package com.commercialcards.onboarding_orchestrator.domain;
 
 import com.commercialcards.onboarding_orchestrator.enums.OnboardingStatus;
-import jakarta.persistence.Column;
-
 import java.time.Instant;
 import java.util.UUID;
 
@@ -10,23 +8,23 @@ public class OnboardingWorkflow {
 
     private UUID workflowId;
     private String companyName;
-    private long registrationNumber;
+    private String registrationNumber;
     private String country;
     private OnboardingStatus onboardingStatus;
-    private Instant companyCreatedDate;
-    private Instant companyUpdatedDate;
+    private Instant createdDate;
+    private Instant updatedDate;
 
     public OnboardingWorkflow() {
     }
 
-    public OnboardingWorkflow(UUID workflowId, String companyName, long registrationNumber, String country, OnboardingStatus onboardingStatus, Instant companyCreatedDate, Instant companyUpdatedDate) {
+    public OnboardingWorkflow(UUID workflowId, String companyName, String registrationNumber, String country, OnboardingStatus onboardingStatus, Instant createdDate, Instant updatedDate) {
         this.workflowId = workflowId;
         this.companyName = companyName;
         this.registrationNumber = registrationNumber;
         this.country = country;
         this.onboardingStatus = onboardingStatus;
-        this.companyCreatedDate = companyCreatedDate;
-        this.companyUpdatedDate = companyUpdatedDate;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
     }
 
     public UUID getWorkflowId() {
@@ -45,11 +43,11 @@ public class OnboardingWorkflow {
         this.companyName = companyName;
     }
 
-    public long getRegistrationNumber() {
+    public String getRegistrationNumber() {
         return registrationNumber;
     }
 
-    public void setRegistrationNumber(long registrationNumber) {
+    public void setRegistrationNumber(String registrationNumber) {
         this.registrationNumber = registrationNumber;
     }
 
@@ -65,19 +63,19 @@ public class OnboardingWorkflow {
         return onboardingStatus;
     }
 
-    public Instant getCompanyCreatedDate() {
-        return companyCreatedDate;
+    public Instant getcreatedDate() {
+        return createdDate;
     }
 
-    public void setCompanyCreatedDate(Instant companyCreatedDate) {
-        this.companyCreatedDate = companyCreatedDate;
+    public void setcreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public Instant getCompanyUpdatedDate() {
-        return companyUpdatedDate;
+    public Instant getupdatedDate() {
+        return updatedDate;
     }
 
-    public void setCompanyUpdatedDate(Instant companyUpdatedDate) {
-        this.companyUpdatedDate = companyUpdatedDate;
+    public void setupdatedDate(Instant updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }
