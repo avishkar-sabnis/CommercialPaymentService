@@ -88,7 +88,31 @@ public class OnboardingWorkflow {
 
             this.onboardingStatus = OnboardingStatus.VALIDATING_COMPANY;
 
-        } else {
+        } else if (this.onboardingStatus == OnboardingStatus.VALIDATING_COMPANY
+                && nextStatus == OnboardingStatus.PROCESSING) {
+
+            this.onboardingStatus = OnboardingStatus.PROCESSING;
+
+        } else if (this.onboardingStatus == OnboardingStatus.VALIDATING_COMPANY
+                && nextStatus == OnboardingStatus.COMPANY_INVALID) {
+            this.onboardingStatus = OnboardingStatus.COMPANY_INVALID;
+        } else if (this.onboardingStatus == OnboardingStatus.PROCESSING
+                && nextStatus == OnboardingStatus.REGISTRATION_COMPLETED) {
+
+            this.onboardingStatus = OnboardingStatus.REGISTRATION_COMPLETED;
+
+        } else if (this.onboardingStatus == OnboardingStatus.REGISTRATION_COMPLETED
+                && nextStatus == OnboardingStatus.ONBOARDED) {
+
+            this.onboardingStatus = OnboardingStatus.ONBOARDED;
+
+        } else if (this.onboardingStatus == OnboardingStatus.PROCESSING
+                && nextStatus == OnboardingStatus.FAILED) {
+
+            this.onboardingStatus = OnboardingStatus.FAILED;
+
+        }
+        else {
             throw new InvalidOnboardingTransitionException("Invalid Status Transition");
         }
     }
