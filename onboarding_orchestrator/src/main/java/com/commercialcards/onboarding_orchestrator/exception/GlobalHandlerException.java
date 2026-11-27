@@ -10,7 +10,12 @@ public class GlobalHandlerException {
 
     @ExceptionHandler(InvalidOnboardingTransitionException.class)
     public ResponseEntity<InvalidOnboardingTransitionException> invalidOnboardingTransitionException(InvalidOnboardingTransitionException onboardingTransitionException){
-        return new ResponseEntity<>(onboardingTransitionException, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(onboardingTransitionException, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(OnboardingWorkflowNotFoundException.class)
+    public ResponseEntity<OnboardingWorkflowNotFoundException> onboardingWorkflowNotFoundExceptionResponseEntity(OnboardingWorkflowNotFoundException onboardingTransitionException){
+        return new ResponseEntity<>(onboardingTransitionException, HttpStatus.NOT_FOUND);
     }
 
 }
