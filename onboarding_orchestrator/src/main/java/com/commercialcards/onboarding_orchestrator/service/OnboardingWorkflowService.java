@@ -21,15 +21,11 @@ public class OnboardingWorkflowService {
     }
 
     @Transactional
-    public OnboardingWorkflow saveOnboardingWorkflo(OnboardingWorkflow onboardingWorkflow){
-        List<OnboardingWorkflow> onboardingWorkflows = onboardingWorkflowRepository.findAll();
-        if(onboardingWorkflows.isEmpty()){
-            onboardingWorkflow.transitionTo(OnboardingStatus.RECEIVED);
-        }
+    public OnboardingWorkflow saveOnboardingWorkflow(OnboardingWorkflow onboardingWorkflow) {
         return onboardingWorkflowRepository.save(onboardingWorkflow);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public OnboardingWorkflow findWorkflowById(UUID workflowId) {
 
         Optional<OnboardingWorkflow> workflow = onboardingWorkflowRepository.findById(workflowId);

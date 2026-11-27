@@ -58,6 +58,7 @@ public class OnboardingWorkflow {
         Instant now = Instant.now();
         this.createdDate = now;
         this.updatedDate = now;
+        this.onboardingStatus = OnboardingStatus.RECEIVED;
     }
     @PreUpdate
     protected void onUpdate() {
