@@ -47,10 +47,21 @@ public class OnboardingWorkflow {
     @Column(name = "createdDate", nullable = false, updatable = false)
     private Instant createdDate;
 
-    @Column(name = "updatedDate", nullable = false, updatable = false)
+    @Column(name = "updatedDate", nullable = false)
     private Instant updatedDate;
 
     public OnboardingWorkflow() {
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        Instant now = Instant.now();
+        this.createdDate = now;
+        this.updatedDate = now;
+    }
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedDate = Instant.now();
     }
 
     public OnboardingWorkflow(UUID workflowId, String companyName, String companyRegistrationNumber, String country, OnboardingStatus onboardingStatus, Instant createdDate, Instant updatedDate) {
