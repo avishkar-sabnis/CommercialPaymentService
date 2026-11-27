@@ -2,27 +2,61 @@ package com.commercialcards.onboarding_orchestrator.domain;
 
 import com.commercialcards.onboarding_orchestrator.enums.OnboardingStatus;
 import com.commercialcards.onboarding_orchestrator.exception.InvalidOnboardingTransitionException;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.time.Instant;
 import java.util.UUID;
 
+@Entity
+@Table(name= "onboarding_orchestrator")
 public class OnboardingWorkflow {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "workflowId", nullable = false)
     private UUID workflowId;
+
+    @NotBlank(message = "Company name cannot be blank")
+    @Size(max = 100, message = "Company name cannot exceed 100 characters")
+    @Column(name = "companyName", nullable = false, length = 100)
     private String companyName;
-    private String registrationNumber;
+
+    @NotBlank(message = "Registration number cannot be blank")
+    @Size(max = 50, message = "Registration number cannot exceed 50 characters")
+    @Column(name = "companyRegistrationNumber", nullable = false, length = 50)
+    private String companyRegistrationNumber;
+
+    @NotBlank(message = "Country code is required")
+    @Size(min = 2, max = 2, message = "Country code must be 2 characters")
+    @Pattern(
+            regexp = "^[A-Z]{2}$",
+            message = "Country code must contain two uppercase letters"
+    )
+    @Column(name = "companyCountry", nullable = false, length = 2, columnDefinition = "CHAR(2)")
     private String country;
+
+    @NotNull(message = "onboardingStatus status is required")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "onboardingStatus", nullable = false, length = 20)
     private OnboardingStatus onboardingStatus;
+
+    @Column(name = "createdDate", nullable = false, updatable = false)
     private Instant createdDate;
+
+    @Column(name = "updatedDate", nullable = false, updatable = false)
     private Instant updatedDate;
 
     public OnboardingWorkflow() {
     }
 
-    public OnboardingWorkflow(UUID workflowId, String companyName, String registrationNumber, String country, OnboardingStatus onboardingStatus, Instant createdDate, Instant updatedDate) {
+    public OnboardingWorkflow(UUID workflowId, String companyName, String companyRegistrationNumber, String country, OnboardingStatus onboardingStatus, Instant createdDate, Instant updatedDate) {
         this.workflowId = workflowId;
         this.companyName = companyName;
-        this.registrationNumber = registrationNumber;
+        this.companyRegistrationNumber = companyRegistrationNumber;
         this.country = country;
         this.onboardingStatus = onboardingStatus;
         this.createdDate = createdDate;
@@ -45,12 +79,12 @@ public class OnboardingWorkflow {
         this.companyName = companyName;
     }
 
-    public String getRegistrationNumber() {
-        return registrationNumber;
+    public String getcompanyRegistrationNumber() {
+        return companyRegistrationNumber;
     }
 
-    public void setRegistrationNumber(String registrationNumber) {
-        this.registrationNumber = registrationNumber;
+    public void setcompanyRegistrationNumber(String companyRegistrationNumber) {
+        this.companyRegistrationNumber = companyRegistrationNumber;
     }
 
     public String getCountry() {
