@@ -46,12 +46,11 @@ public class OnboardingWorkflowService {
 
         Optional<OnboardingWorkflow> workflow = onboardingWorkflowRepository.findById(workflowId);
         if(workflow.isPresent()){
-            OnboardingWorkflow onboardingWorkflow = new OnboardingWorkflow();
-            onboardingWorkflow.transitionTo(newStatus);
-            return OnboardingWorkflowReqMapper.getOnboardingWorkflowResponse(onboardingWorkflow);
+            workflow.get().transitionTo(newStatus);
+
         }else{
             throw new OnboardingWorkflowNotFoundException("Workflow Does Not Exists");
         }
-
+        return OnboardingWorkflowReqMapper.getOnboardingWorkflowResponse(workflow.get());
     }
 }
