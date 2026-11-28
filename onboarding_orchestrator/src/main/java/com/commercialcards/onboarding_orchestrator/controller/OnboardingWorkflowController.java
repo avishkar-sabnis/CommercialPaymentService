@@ -3,7 +3,9 @@ package com.commercialcards.onboarding_orchestrator.controller;
 import com.commercialcards.onboarding_orchestrator.domain.OnboardingWorkflow;
 import com.commercialcards.onboarding_orchestrator.dto.OnboardingWorkflowRequest;
 import com.commercialcards.onboarding_orchestrator.dto.OnboardingWorkflowResponse;
+import com.commercialcards.onboarding_orchestrator.enums.OnboardingStatus;
 import com.commercialcards.onboarding_orchestrator.service.OnboardingWorkflowService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +23,7 @@ public class OnboardingWorkflowController {
     }
 
     @PostMapping("/saveWorkflow")
-    ResponseEntity<OnboardingWorkflowResponse> saveOnboardingWorkflow(@RequestBody OnboardingWorkflowRequest onboardingWorkflowRequest){
+    ResponseEntity<OnboardingWorkflowResponse> saveOnboardingWorkflow(@Valid @RequestBody OnboardingWorkflowRequest onboardingWorkflowRequest){
 
         OnboardingWorkflowResponse workflow = onboardingWorkflowService.saveOnboardingWorkflow(onboardingWorkflowRequest);
         return new ResponseEntity<>(workflow,HttpStatus.CREATED);
@@ -31,6 +33,14 @@ public class OnboardingWorkflowController {
     ResponseEntity<OnboardingWorkflowResponse> findWorkflowById(@PathVariable UUID onboardingWorkflow){
         OnboardingWorkflowResponse workflow = onboardingWorkflowService.findWorkflowById(onboardingWorkflow);
         return new ResponseEntity<>(workflow,HttpStatus.OK);
+    }
+
+    @PatchMapping("/updateWorkflow")
+    public ResponseEntity<OnboardingWorkflowResponse> updateOnboardingWorkflowResponse(UUID workflowId, OnboardingStatus newStatus){
+
+        OnboardingWorkflowResponse updatedWorkflowResponse = onboardingWorkflowService.updateWorkflowStatus(workflowId,newStatus);
+        return new ResponseEntity<>(updatedWorkflowResponse, HttpStatus.OK);
+
     }
 
 

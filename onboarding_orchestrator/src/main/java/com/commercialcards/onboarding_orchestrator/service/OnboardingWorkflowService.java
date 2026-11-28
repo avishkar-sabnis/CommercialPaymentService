@@ -3,6 +3,7 @@ package com.commercialcards.onboarding_orchestrator.service;
 import com.commercialcards.onboarding_orchestrator.domain.OnboardingWorkflow;
 import com.commercialcards.onboarding_orchestrator.dto.OnboardingWorkflowRequest;
 import com.commercialcards.onboarding_orchestrator.dto.OnboardingWorkflowResponse;
+import com.commercialcards.onboarding_orchestrator.enums.OnboardingStatus;
 import com.commercialcards.onboarding_orchestrator.exception.OnboardingWorkflowNotFoundException;
 import com.commercialcards.onboarding_orchestrator.mapper.OnboardingWorkflowReqMapper;
 import com.commercialcards.onboarding_orchestrator.repository.OnboardingWorkflowRepository;
@@ -41,5 +42,16 @@ public class OnboardingWorkflowService {
     }
 
 
+    public OnboardingWorkflowResponse updateWorkflowStatus(UUID workflowId, OnboardingStatus newStatus) {
 
+        Optional<OnboardingWorkflow> workflow = onboardingWorkflowRepository.findById(workflowId);
+        if(workflow.isPresent()){
+            OnboardingWorkflow onboardingWorkflow = new OnboardingWorkflow();
+            onboardingWorkflow.transitionTo(newStatus);
+            return OnboardingWorkflowReqMapper.getOnboardingWorkflowResponse(onboardingWorkflow);
+        }else{
+            throw new OnboardingWorkflowNotFoundException("Workflow Does Not Exists");
+        }
+
+    }
 }
