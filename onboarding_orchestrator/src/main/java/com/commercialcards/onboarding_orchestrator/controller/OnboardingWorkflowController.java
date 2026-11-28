@@ -21,13 +21,13 @@ public class OnboardingWorkflowController {
     @PostMapping("/saveWorkflow")
     ResponseEntity<OnboardingWorkflow> saveOnboardingWorkflow(@RequestBody OnboardingWorkflow onboardingWorkflow){
         OnboardingWorkflow workflow = onboardingWorkflowService.saveOnboardingWorkflow(onboardingWorkflow);
-        return new ResponseEntity<>(workflow,HttpStatus.OK);
+        return new ResponseEntity<>(workflow,HttpStatus.CREATED);
 
     }
-    @GetMapping("/findWorkflowById")
+    @GetMapping("/findWorkflowById/{onboardingWorkflow}")
     ResponseEntity<OnboardingWorkflow> findWorkflowById(@PathVariable UUID onboardingWorkflow){
         OnboardingWorkflow workflow = onboardingWorkflowService.findWorkflowById(onboardingWorkflow);
-        return new ResponseEntity<>(workflow,HttpStatus.OK);
+        return new ResponseEntity<>(workflow,HttpStatus.FOUND);
     }
 
 
