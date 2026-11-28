@@ -1,6 +1,7 @@
 package com.commercialcards.onboarding_orchestrator.controller;
 
 import com.commercialcards.onboarding_orchestrator.domain.OnboardingWorkflow;
+import com.commercialcards.onboarding_orchestrator.dto.OnboardingWorkflowRequest;
 import com.commercialcards.onboarding_orchestrator.dto.OnboardingWorkflowResponse;
 import com.commercialcards.onboarding_orchestrator.service.OnboardingWorkflowService;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,9 @@ public class OnboardingWorkflowController {
     }
 
     @PostMapping("/saveWorkflow")
-    ResponseEntity<OnboardingWorkflowResponse> saveOnboardingWorkflow(@RequestBody OnboardingWorkflow onboardingWorkflow){
-        OnboardingWorkflowResponse workflow = onboardingWorkflowService.saveOnboardingWorkflow(onboardingWorkflow);
+    ResponseEntity<OnboardingWorkflowResponse> saveOnboardingWorkflow(@RequestBody OnboardingWorkflowRequest onboardingWorkflowRequest){
+
+        OnboardingWorkflowResponse workflow = onboardingWorkflowService.saveOnboardingWorkflow(onboardingWorkflowRequest);
         return new ResponseEntity<>(workflow,HttpStatus.CREATED);
 
     }

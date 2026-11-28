@@ -24,5 +24,16 @@ public class OnboardingWorkflowReqMapper {
         
         return onboardingWorkflowResponse;
     }
+    public static OnboardingWorkflow getOnboardingWorkflowRequest(OnboardingWorkflowRequest onboardingWorkflow){
+
+        OnboardingWorkflow onboardingWorkflows = new OnboardingWorkflow();
+        onboardingWorkflows.setCompanyName(
+                onboardingWorkflow.getCompanyName());
+        onboardingWorkflows.setCountry(
+                onboardingWorkflow.getCountry());
+        onboardingWorkflows.setcompanyRegistrationNumber(onboardingWorkflow.getCompanyRegistrationNumber());
+
+        return onboardingWorkflows;
+    }
 
 }

@@ -22,8 +22,9 @@ public class OnboardingWorkflowService {
     }
 
     @Transactional
-    public OnboardingWorkflowResponse saveOnboardingWorkflow(OnboardingWorkflow onboardingWorkflow) {
-        OnboardingWorkflow onboardingWorkflow1 = onboardingWorkflowRepository.save(onboardingWorkflow);
+    public OnboardingWorkflowResponse saveOnboardingWorkflow(OnboardingWorkflowRequest onboardingWorkflowRequest) {
+        OnboardingWorkflow onboardingWorkflows= OnboardingWorkflowReqMapper.getOnboardingWorkflowRequest(onboardingWorkflowRequest);
+        OnboardingWorkflow onboardingWorkflow1 = onboardingWorkflowRepository.save(onboardingWorkflows);
         return OnboardingWorkflowReqMapper.getOnboardingWorkflowResponse(onboardingWorkflow1);
     }
 
