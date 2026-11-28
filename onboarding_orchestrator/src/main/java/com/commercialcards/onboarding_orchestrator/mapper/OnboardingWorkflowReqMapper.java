@@ -13,6 +13,14 @@ public class OnboardingWorkflowReqMapper {
         onboardingWorkflowResponse.setCreatedDate(onboardingWorkflow.getcreatedDate());
         onboardingWorkflowResponse.setUpdatedDate(onboardingWorkflow.getupdatedDate());
         onboardingWorkflowResponse.setWorkflowId(onboardingWorkflow.getWorkflowId());
+        onboardingWorkflowResponse.setCompanyName(
+                onboardingWorkflow.getCompanyName());
+
+        onboardingWorkflowResponse.setCompanyRegistrationNumber(
+                onboardingWorkflow.getcompanyRegistrationNumber());
+
+        onboardingWorkflowResponse.setCountry(
+                onboardingWorkflow.getCountry());
         
         return onboardingWorkflowResponse;
     }
