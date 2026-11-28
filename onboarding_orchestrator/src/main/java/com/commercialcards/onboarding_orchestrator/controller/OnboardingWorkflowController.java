@@ -36,7 +36,8 @@ public class OnboardingWorkflowController {
     }
 
     @PatchMapping("/updateWorkflow")
-    public ResponseEntity<OnboardingWorkflowResponse> updateOnboardingWorkflowResponse(UUID workflowId, OnboardingStatus newStatus){
+    public ResponseEntity<OnboardingWorkflowResponse> updateOnboardingWorkflowResponse(@RequestParam UUID workflowId
+            ,@RequestParam OnboardingStatus newStatus){
 
         OnboardingWorkflowResponse updatedWorkflowResponse = onboardingWorkflowService.updateWorkflowStatus(workflowId,newStatus);
         return new ResponseEntity<>(updatedWorkflowResponse, HttpStatus.OK);
