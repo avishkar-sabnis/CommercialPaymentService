@@ -1,8 +1,7 @@
 package com.commercialcards.onboarding_orchestrator.controller;
 
 import com.commercialcards.onboarding_orchestrator.domain.OnboardingWorkflow;
-import com.commercialcards.onboarding_orchestrator.dto.OnboardingWorkflowRequest;
-import com.commercialcards.onboarding_orchestrator.mapper.OnboardingWorkflowReqMapper;
+import com.commercialcards.onboarding_orchestrator.dto.OnboardingWorkflowResponse;
 import com.commercialcards.onboarding_orchestrator.service.OnboardingWorkflowService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +20,14 @@ public class OnboardingWorkflowController {
     }
 
     @PostMapping("/saveWorkflow")
-    ResponseEntity<OnboardingWorkflowRequest> saveOnboardingWorkflow(@RequestBody OnboardingWorkflow onboardingWorkflow){
-        OnboardingWorkflowRequest workflow = onboardingWorkflowService.saveOnboardingWorkflow(onboardingWorkflow);
+    ResponseEntity<OnboardingWorkflowResponse> saveOnboardingWorkflow(@RequestBody OnboardingWorkflow onboardingWorkflow){
+        OnboardingWorkflowResponse workflow = onboardingWorkflowService.saveOnboardingWorkflow(onboardingWorkflow);
         return new ResponseEntity<>(workflow,HttpStatus.CREATED);
 
     }
     @GetMapping("/findWorkflowById/{onboardingWorkflow}")
-    ResponseEntity<OnboardingWorkflowRequest> findWorkflowById(@PathVariable UUID onboardingWorkflow){
-        OnboardingWorkflowRequest workflow = onboardingWorkflowService.findWorkflowById(onboardingWorkflow);
+    ResponseEntity<OnboardingWorkflowResponse> findWorkflowById(@PathVariable UUID onboardingWorkflow){
+        OnboardingWorkflowResponse workflow = onboardingWorkflowService.findWorkflowById(onboardingWorkflow);
         return new ResponseEntity<>(workflow,HttpStatus.OK);
     }
 

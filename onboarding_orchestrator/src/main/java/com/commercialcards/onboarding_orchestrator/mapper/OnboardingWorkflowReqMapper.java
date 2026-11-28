@@ -2,16 +2,19 @@ package com.commercialcards.onboarding_orchestrator.mapper;
 
 import com.commercialcards.onboarding_orchestrator.domain.OnboardingWorkflow;
 import com.commercialcards.onboarding_orchestrator.dto.OnboardingWorkflowRequest;
+import com.commercialcards.onboarding_orchestrator.dto.OnboardingWorkflowResponse;
 
 public class OnboardingWorkflowReqMapper {
 
-    public static OnboardingWorkflowRequest getOnboardingWorkflowRequest(OnboardingWorkflow onboardingWorkflow){
+    public static OnboardingWorkflowResponse getOnboardingWorkflowResponse(OnboardingWorkflow onboardingWorkflow){
 
-        OnboardingWorkflowRequest onboardingWorkflowRequest = new OnboardingWorkflowRequest();
-        onboardingWorkflowRequest.setCompanyName(onboardingWorkflow.getCompanyName());
-        onboardingWorkflowRequest.setCompanyRegistrationNumber(onboardingWorkflow.getcompanyRegistrationNumber());
-        onboardingWorkflowRequest.setCountry(onboardingWorkflow.getCountry());
-        return onboardingWorkflowRequest;
+        OnboardingWorkflowResponse onboardingWorkflowResponse = new OnboardingWorkflowResponse();
+        onboardingWorkflowResponse.setOnboardingStatus(onboardingWorkflow.getOnboardingStatus());
+        onboardingWorkflowResponse.setCreatedDate(onboardingWorkflow.getcreatedDate());
+        onboardingWorkflowResponse.setUpdatedDate(onboardingWorkflow.getupdatedDate());
+        onboardingWorkflowResponse.setWorkflowId(onboardingWorkflow.getWorkflowId());
+        
+        return onboardingWorkflowResponse;
     }
 
 }

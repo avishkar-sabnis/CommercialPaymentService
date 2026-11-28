@@ -2,6 +2,7 @@ package com.commercialcards.onboarding_orchestrator.service;
 
 import com.commercialcards.onboarding_orchestrator.domain.OnboardingWorkflow;
 import com.commercialcards.onboarding_orchestrator.dto.OnboardingWorkflowRequest;
+import com.commercialcards.onboarding_orchestrator.dto.OnboardingWorkflowResponse;
 import com.commercialcards.onboarding_orchestrator.exception.OnboardingWorkflowNotFoundException;
 import com.commercialcards.onboarding_orchestrator.mapper.OnboardingWorkflowReqMapper;
 import com.commercialcards.onboarding_orchestrator.repository.OnboardingWorkflowRepository;
@@ -21,18 +22,18 @@ public class OnboardingWorkflowService {
     }
 
     @Transactional
-    public OnboardingWorkflowRequest saveOnboardingWorkflow(OnboardingWorkflow onboardingWorkflow) {
+    public OnboardingWorkflowResponse saveOnboardingWorkflow(OnboardingWorkflow onboardingWorkflow) {
         OnboardingWorkflow onboardingWorkflow1 = onboardingWorkflowRepository.save(onboardingWorkflow);
-        return OnboardingWorkflowReqMapper.getOnboardingWorkflowRequest(onboardingWorkflow1);
+        return OnboardingWorkflowReqMapper.getOnboardingWorkflowResponse(onboardingWorkflow1);
     }
 
     @Transactional(readOnly = true)
-    public OnboardingWorkflowRequest findWorkflowById(UUID workflowId) {
+    public OnboardingWorkflowResponse findWorkflowById(UUID workflowId) {
 
         Optional<OnboardingWorkflow> workflow = onboardingWorkflowRepository.findById(workflowId);
         if(workflow.isPresent()) {
             OnboardingWorkflow workflow1 = workflow.get();
-            return OnboardingWorkflowReqMapper.getOnboardingWorkflowRequest(workflow1);
+            return OnboardingWorkflowReqMapper.getOnboardingWorkflowResponse(workflow1);
         } else
             throw new OnboardingWorkflowNotFoundException("Workflow Does Not Exists");
 
